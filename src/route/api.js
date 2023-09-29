@@ -25,7 +25,7 @@ router.get("/list-task-by-status/:status",AuthVerifyMiddleware,TasksConttroller.
 router.get("/status-update/:id/:status",AuthVerifyMiddleware,TasksConttroller.statusUpdate);
 
 router.get('/', (req, res) => {
-    res.send('Task Manager Api Start.. ')
+    res.send('Express JS on Vercel Authorozation')
 })
 
 module.exports=router;

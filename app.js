@@ -39,8 +39,8 @@ app.use('/',router)
 
 
 
-app.use("*",(req, res)=>{
-    res.status(404).json({status:"Fail",data:"page Not Found"})
-});
+//app.use("*",(req, res)=>{
+ //   res.status(404).json({status:"Fail",data:"page Not Found"})
+//});
 
 module.exports=app;

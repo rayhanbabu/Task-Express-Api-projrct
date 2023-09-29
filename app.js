@@ -28,13 +28,16 @@ app.use(limiter);
 
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/TastManager")
-     .then(() => {
-          //console.log("Server run success");
-        })
-       .catch((err) => console.log(err));
+//Database
+mongoose.connect("mongodb+srv://rayhanbabu458:rayhanbabu458@atlascluster.q16wgcx.mongodb.net/taskmanager")
+    .then(()=>{
+        console.log("run database");
+    })
+    .catch((err) => console.log(err));
+//Managing BackEnd API Routing   localhost:5000/api/v1
+app.use('/',router)
 
-app.use("/api/v1",router);
+
 
 app.use("*",(req, res)=>{
     res.status(404).json({status:"Fail",data:"page Not Found"})

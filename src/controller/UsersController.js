@@ -38,6 +38,17 @@ const jwt=require("jsonwebtoken");
       }
   }
 
+ exports.profileUpdate=async (req,res)=>{
+     try{
+         let  email=req.headers.email;
+         let reqBody=req.body;
+         await UsersModel.updateOne({email: email}, {$set:reqBody}, {upsert:true});
+         res.status(200).json({status:"Success",data:"Profile Save Changed"});
+     }catch(e){
+         res.status(200).json({status:"Fail",data:e});
+     }
+   }
+
 
   exports.profileDetails=async (req,res)=>{
      try{
@@ -63,23 +74,39 @@ const jwt=require("jsonwebtoken");
         }
   }
 
-   exports.VerifyOTP=async(req,res)=>{
-          let email=req.params.email;
-          let otp=req.params.otp;
-      try{
-          let result=await  OTPModel.find({email:email,otp:otp,status:0}).count('total');
-          if(result===1){
-                await  OTPModel.updateOne({email:email,otp:otp,status:0},{status:1});
-               res.status(200).json({status:"success", data:'Verificataion Success'});
-          }else{
-               res.status(200).json({status:"fail", data:'Already Used'});
-          }
-      }catch(e){
-          res.status(200).json({status:"Fail", data:e})
+   exports.VerifyOTP=async(req,res)=> {
+       let email = req.params.email;
+       let otp = req.params.otp;
+       try {
+           let result = await OTPModel.find({email: email, otp: otp, status: 0}).count('total');
+           if (result === 1) {
+               await OTPModel.updateOne({email: email, otp: otp, status: 0}, {status: 1});
+               res.status(200).json({status: "success", data: 'Verificataion Success'});
+           } else {
+               res.status(200).json({status: "fail", data: 'Already Used'});
+           }
+       } catch (e) {
+           res.status(200).json({status: "Fail", data: e})
+       }
+   }
+
+       exports.passwordUpdate=async(req,res)=>{
+           let email=req.params.email;
+           try{
+               let password=req.body.password;
+               let confirm_password=req.body.confirmPassword;
+               if(password===confirm_password){
+                   await UsersModel.updateOne({email: email}, {password:password});
+                   res.status(200).json({status:"success", data:"Password Update SuccessFull"});
+               }else{
+                   res.status(200).json({status:"Fail", data:"Password Not match"});
+               }
+
+           }catch(e){
+               res.status(200).json({status:"Fail", data:e})
+           }
       }
 
 
-
-   }
 
 
